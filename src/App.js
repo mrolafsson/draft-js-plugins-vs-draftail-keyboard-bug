@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {DraftailEditor} from "draftail"
+import {EditorState} from 'draft-js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const plugins = [
+  {
+    keyBindingFn: (e) => console.log(e),
+    handleReturn: (e) => console.log("Return!!!")
+  }
+];
+
+export default class TextEditor extends Component {
+
+  state = {
+    editorState: EditorState.createEmpty(),
+  };
+
+  onChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
+  };
+
+  render() {
+    return (
+      <DraftailEditor
+        editorState={this.state.editorState}
+        onChange={this.onChange}
+        plugins={plugins}
+      />
+    );
+  }
 }
-
-export default App;
